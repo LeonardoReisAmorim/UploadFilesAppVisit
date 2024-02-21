@@ -21,11 +21,26 @@ function ChamarAjaxComArquivos() {
         formData.append("selecao-arquivo", file);
     }
 
-    fetch(url, {
-        method: "POST",
-        body: formData
-    }).then(response => response.json()).then(arquivo => {
-        localStorage['arquivoId'] = arquivo.id;
-        window.location = "/createPlace.html"
-    });
+    try{
+        fetch(url, {
+            method: "POST",
+            body: formData
+        })
+        .then((result) => {
+            if(!result.ok){
+                alert(result.status);
+                return
+            }
+
+            result.json().then(arquivo => {
+                localStorage['arquivoId'] = arquivo.id;
+                alert("Arquivo importado com sucesso");
+                window.location = "/assets/pages/createPlace.html";
+            });
+        })
+        
+    }catch(error){
+        alert(error);
+    }
+    
 }

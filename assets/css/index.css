@@ -1,0 +1,40 @@
+body {
+    margin: auto;
+    text-align: center;
+    font-family: 'Roboto Slab', serif;
+}
+    
+#slogan {
+    margin:auto;
+    width: 1200px;
+    margin-top:90px;
+    font-size: 60px;
+    color: rgb(0, 0, 0);
+}
+    
+h1 {
+    font-size: 50px;
+}
+    
+h3 {
+    font-size: 30px; 
+}
+    
+button {
+    height:50px;
+    width:130px;
+    background-color: orangered;
+    color: white;
+    font-size: 12px;
+    font-family: 'Roboto Slab', serif;
+    border-radius: 5px;
+}
+    
+button:hover {
+    cursor: pointer;
+} 
+
+#redirectUploadFile{
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+}

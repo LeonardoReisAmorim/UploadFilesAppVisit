@@ -1,4 +1,4 @@
-document.getElementById("arquivoId").innerHTML = localStorage['arquivoId'] || 'defaultValue';
+//document.getElementById("arquivoId").innerHTML = localStorage['arquivoId'] || 'defaultValue';
 
 function CreatePlace(){
     fetch("https://localhost:7011/Lugar", {
@@ -6,7 +6,7 @@ function CreatePlace(){
         body: JSON.stringify({
             nome: "",
             descricao: "",
-            arquivoId: localStorage['arquivoId'] || 'defaultValue',
+            arquivoId: localStorage['arquivoId'] || 0,
             cidadeId: 0,
             imagem: ""
         }),
