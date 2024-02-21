@@ -7,7 +7,20 @@
     <link rel="stylesheet" href="/assets/css/index.css">
 </head>
 <body>
-    
+    <label for="namePlace">Digite o nome do lugar</label>
+    <input type="text" id="namePlace">
+
+    <label for="descriptionPlace">Digite a descrição do lugar</label>
+    <input type="text" id="descriptionPlace">
+
+    <label for="cityPlace">Escolha a cidade em que o lugar está</label>
+    <select name="cities" id="cities">
+        <option value="">--Escolha uma opção--</option>
+    </select>
+
+    <label for="imagePlace">Seleciona a imagem do lugar</label>
+    <input type="file" id="imagePlace" name="imagePlace" accept="image/png, image/jpeg" />
+
     <script src="/assets/script/createPlace.js"></script>
 </body>
 </html>
