@@ -6,7 +6,7 @@ function CreatePlace(){
         body: JSON.stringify({
             nome: "",
             descricao: "",
-            arquivoId: 0,
+            arquivoId: localStorage['arquivoId'] || 'defaultValue',
             cidadeId: 0,
             imagem: ""
         }),

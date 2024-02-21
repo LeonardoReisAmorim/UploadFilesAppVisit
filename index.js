@@ -1,3 +1,5 @@
+var url = "https://localhost:7011/Arquivo";
+
 function InputFileChange() {
     let quantidade = document.getElementById("selecao-arquivo").files.length;
     if (quantidade > 0) {
@@ -19,7 +21,7 @@ function ChamarAjaxComArquivos() {
         formData.append("selecao-arquivo", file);
     }
 
-    fetch('https://localhost:7011/Arquivo', {
+    fetch(url, {
         method: "POST",
         body: formData
     }).then(response => response.json()).then(arquivo => {
