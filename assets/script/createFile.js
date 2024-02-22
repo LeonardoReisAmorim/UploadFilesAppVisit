@@ -8,7 +8,7 @@ function InputFileChange() {
     else {
         document.getElementById('salvar-anexos').style.display = "none";
     }
-    document.querySelector("body > div.custom-file > label").innerHTML = `${quantidade} Arquivo(s) Selecionado(s)`; 
+    document.querySelector("body > div:nth-child(1) > label").innerHTML = `${quantidade} Arquivo(s) Selecionado(s)`; 
 }
 
 function ChamarAjaxComArquivos() {

@@ -20,7 +20,7 @@ h3 {
     font-size: 30px; 
 }
     
-button {
+#initial {
     height:50px;
     width:130px;
     background-color: orangered;
@@ -30,7 +30,7 @@ button {
     border-radius: 5px;
 }
     
-button:hover {
+#initial:hover {
     cursor: pointer;
 } 
 

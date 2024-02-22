@@ -8,19 +8,22 @@
 </head>
 <body>
     <label for="namePlace">Digite o nome do lugar</label>
-    <input type="text" id="namePlace">
+        <input type="text" id="namePlace">
 
-    <label for="descriptionPlace">Digite a descrição do lugar</label>
-    <input type="text" id="descriptionPlace">
+        <label for="descriptionPlace">Digite a descrição do lugar</label>
+        <input type="text" id="descriptionPlace">
 
-    <label for="cityPlace">Escolha a cidade em que o lugar está</label>
-    <select name="cities" id="cities">
-        <option value="">--Escolha uma opção--</option>
-    </select>
+        <label for="cityPlace">Escolha a cidade em que o lugar está</label>
+        <select name="cities" id="cities">
+            <option value="">Escolha uma opção</option>
+        </select>
 
-    <label for="imagePlace">Seleciona a imagem do lugar</label>
-    <input type="file" id="imagePlace" name="imagePlace" accept="image/png, image/jpeg" />
+        <label for="imagePlace">Seleciona a imagem do lugar</label>
+        <input type="file" id="imagePlace" name="imagePlace" accept="image/png, image/jpeg"/>
 
+        <textarea name="base64" id="base64" cols="30" rows="10" hidden></textarea>
+
+        <button id="createPlace">CRIAR LUGAR</button>
     <script src="/assets/script/createPlace.js"></script>
 </body>
 </html>
