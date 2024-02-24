@@ -7,17 +7,21 @@
     <link rel="stylesheet" href="/assets/css/index.css">
 </head>
 <body>
+
+    <label for="nomeArquivo">Digite o nome do arquivo</label>
+    <input type="text" id="nomeArquivo">
+
     <div class="">
         <input type="file" class="" id="selecao-arquivo" onchange="InputFileChange()">
-        <label class="btn-2" for="selecao-arquivo">Selecione os arquivos</label>
+        <label class="btn-2" for="selecao-arquivo" id="labelArquivo">Selecione os arquivos</label>
     </div>
 
-    <div class="" style="display: none;text-align:right" id="salvar-anexos">
+    <div class="" style="display: none;" id="salvar-anexos">
         <a class="" onclick="ChamarAjaxComArquivos()">
             Enviar Arquivos
         </a>
     </div>
 
-    <script src="/assets/script/createFile.js"></script>
+    <script src="/assets/script/file.js"></script>
 </body>
 </html>

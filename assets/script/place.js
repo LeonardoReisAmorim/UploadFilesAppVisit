@@ -1,7 +1,6 @@
-var urlCities = "https://localhost:7011/Cidade";
-var urlPostPlace = "https://localhost:7011/Lugar";
+var url = "https://localhost:7011/";
 
-let result = fetch(urlCities)
+let resultCidades = fetch(url+"Cidade")
 .then(response => {
     if(!response.ok){
         return new Error('falhou a requisição')
@@ -14,7 +13,7 @@ let result = fetch(urlCities)
     return response.json();
 });
 
-result.then(cidades => {
+resultCidades.then(cidades => {
     for(var cidade of cidades){
         let option = document.createElement("option");
         option.value = cidade.id;
@@ -23,21 +22,44 @@ result.then(cidades => {
     }
 });
 
+let resultFiles = fetch(url+"Arquivo/dadosArquivos")
+.then(response => {
+    if(!response.ok){
+        return new Error('falhou a requisição')
+    }
+
+    if (response.status === 404) {
+        return new Error('não encontrou qualquer resultado')
+    }
+
+    return response.json();
+});
+
+resultFiles.then(files => {
+    for(var file of files){
+        let option = document.createElement("option");
+        option.value = file.id;
+        option.text = file.nomeArquivo;
+        document.getElementById("files").appendChild(option)
+    }
+});
+
 document.getElementById("createPlace").addEventListener('click', ()=>{
     let cidadeId = parseInt(document.getElementById("cities").value);
     let nomeLugar = document.getElementById("namePlace").value;
     let descricaoLugar = document.getElementById("descriptionPlace").value;
     let imagemBase64 = document.getElementById("base64").value;
+    let arquivoId = parseInt(document.getElementById("files").value);
 
     let lugar = {
         Nome: nomeLugar,
         Descricao: descricaoLugar,
-        ArquivoId: parseInt(localStorage['arquivoId']) || 0,
+        ArquivoId: arquivoId,
         CidadeId: cidadeId,
         Imagem: imagemBase64
     }
 
-    if(!cidadeId || !nomeLugar || !descricaoLugar){
+    if(!cidadeId || !nomeLugar || !descricaoLugar || !arquivoId){
         alert("necessario preencher todos os campos");
         return
     }
@@ -47,13 +69,14 @@ document.getElementById("createPlace").addEventListener('click', ()=>{
 
 function CreatePlace(lugarParametro){
     try{
-        fetch(urlPostPlace, {
+        fetch(url+"Lugar", {
             method: "POST",
             body: JSON.stringify(lugarParametro),
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }
-        }).then(result => {
+        })
+        .then(result => {
             if(!result.ok){
                 return new Error('falhou a requisição')
             }
