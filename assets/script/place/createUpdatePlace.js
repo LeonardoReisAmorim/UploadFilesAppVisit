@@ -1,47 +1,47 @@
 var url = "https://localhost:7011/";
 
-let resultCidades = fetch(url+"Cidade")
+fetch(url+"Cidade")
 .then(response => {
     if(!response.ok){
-        return new Error('falhou a requisição')
+        alert('falhou a requisição')
+        return 
     }
 
     if (response.status === 404) {
-        return new Error('não encontrou qualquer resultado')
+        alert('não encontrou qualquer resultado')
+        return
     }
 
-    return response.json();
+    response.json().then(cidades => {
+        for(var cidade of cidades){
+            let option = document.createElement("option");
+            option.value = cidade.id;
+            option.text = cidade.nome;
+            document.getElementById("cities").appendChild(option)
+        }
+    });
 });
 
-resultCidades.then(cidades => {
-    for(var cidade of cidades){
-        let option = document.createElement("option");
-        option.value = cidade.id;
-        option.text = cidade.nome;
-        document.getElementById("cities").appendChild(option)
-    }
-});
-
-let resultFiles = fetch(url+"Arquivo/dadosArquivos")
+fetch(url+"Arquivo/dadosArquivos")
 .then(response => {
     if(!response.ok){
-        return new Error('falhou a requisição')
+        alert('falhou a requisição')
+        return 
     }
 
     if (response.status === 404) {
-        return new Error('não encontrou qualquer resultado')
+        alert('não encontrou qualquer resultado')
+        return
     }
 
-    return response.json();
-});
-
-resultFiles.then(files => {
-    for(var file of files){
-        let option = document.createElement("option");
-        option.value = file.id;
-        option.text = file.nomeArquivo;
-        document.getElementById("files").appendChild(option)
-    }
+    response.json().then(files => {
+        for(var file of files){
+            let option = document.createElement("option");
+            option.value = file.id;
+            option.text = file.nomeArquivo;
+            document.getElementById("files").appendChild(option)
+        }
+    });
 });
 
 document.getElementById("createPlace").addEventListener('click', ()=>{
@@ -78,14 +78,17 @@ function CreatePlace(lugarParametro){
         })
         .then(result => {
             if(!result.ok){
-                return new Error('falhou a requisição')
+                alert('falhou a requisição')
+                return 
             }
     
             if (result.status === 404) {
-                return new Error('não encontrou qualquer resultado')
+                alert('não encontrou qualquer resultado')
+                return
             }
     
             alert("lugar criado com sucesso");
+            window.location = "/assets/pages/place/Place.html";
         });
     }catch(error){
         alert(error);

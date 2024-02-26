@@ -3,21 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File</title>
+    <title>Lugar</title>
     <link rel="stylesheet" href="/assets/css/index.css">
 </head>
 <body>
 
-    <table id="tablePlace">
-        <tr>
-          <th>Id</th>
-          <th>Nome do Lugar</th>
-          <th>Descricao</th>
-          <th>Cidade</th>
-          <th>Nome do Arquivo</th>
-        </tr>
-      </table>
+  <div><a href="/assets/pages/place/CreateEditPlace.html">Criar lugar</a></div>
+
+  <img id="loading" src="/assets/images/Loading_icon.gif" alt="">
+
+  <table id="tablePlace">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Nome do Lugar</th>
+        <th>Descrição</th>
+        <th>Cidade</th>
+        <th>Nome do Arquivo</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+  </table>
     
-    <script src="/assets/script/place.js"></script>
+    <script src="/assets/script/place/place.js"></script>
 </body>
 </html>
