@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <div><a href="/assets/pages/place/CreateEditPlace.html">Criar lugar</a></div>
+  <div><button type="button" onclick="criarModal();">Criar lugar</button></div>
 
   <img id="loading" src="/assets/images/Loading_icon.gif" alt="">
 
@@ -24,7 +24,44 @@
       </tr>
     </thead>
   </table>
+
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+
+      <input type="text" hidden id="idplace">
+
+      <label for="namePlace">Digite o nome do lugar</label>
+      <input type="text" id="namePlace">
+      <br>
+
+      <label for="descriptionPlace">Digite a descrição do lugar</label>
+      <input type="text" id="descriptionPlace">
+      <br>
+
+      <label for="cityPlace">Escolha a cidade em que o lugar está</label>
+      <select name="cities" id="cities">
+          <option value="">Escolha uma opção</option>
+      </select>
+      <br>
+
+      <label for="filePlace">Escolha o arquivo do ambiente virtual</label>
+      <select name="files" id="files">
+          <option value="">Escolha uma opção</option>
+      </select>
+      <br>
+
+      <label for="imagePlace">Seleciona a imagem do lugar</label>
+      <input type="file" id="imagePlace" name="imagePlace" accept="image/png, image/jpeg"/>
+      <br>
+      
+      <img id="display" src="">
+      <br>
+
+      <button id="createPlace">CRIAR LUGAR</button>
+    </div>
+  </div>
     
-    <script src="/assets/script/place/place.js"></script>
+  <script src="/assets/script/place.js"></script>
 </body>
 </html>

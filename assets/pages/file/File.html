@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <div><a href="/assets/pages/file/UploadEditFile.html">Realizar upload do arquivo</a></div>
+  <div><button type="button" onclick="criarModal()">Realizar upload do arquivo</button></div>
   <div><a href="/assets/pages/place/Place.html">Lista de lugares</a></div>
 
   <img id="loading" src="/assets/images/Loading_icon.gif" alt="">
@@ -23,7 +23,29 @@
         </tr>
     </thead>
   </table>
+
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+
+      <label for="nomeArquivo">Digite o nome do arquivo</label>
+      <input type="text" id="nomeArquivo">
+
+      <label style="display: none;" id="labelEditFile" for="nomeArquivoEdit">Necessário realizar upload do novo arquivo</label>
+      <input type="text" hidden id="idFile">
+      <div class="">
+          <input type="file" class="" id="selecao-arquivo" onchange="InputFileChange()">
+          <label class="btn-2" for="selecao-arquivo" id="labelArquivo">Selecione os arquivos</label>
+      </div>
+
+      <div class="" style="display: none;" id="salvar-anexos">
+          <a class="" onclick="ChamarAjaxComArquivos()">
+              Enviar Arquivos
+          </a>
+      </div>
+    </div>
+  </div>
     
-    <script src="/assets/script/file/file.js"></script>
+    <script src="/assets/script/file.js"></script>
 </body>
 </html>
