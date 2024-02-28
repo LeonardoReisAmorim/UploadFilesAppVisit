@@ -27,8 +27,8 @@ fetch(url+"Lugar")
                <td>${element.nomeArquivo}</td>
                <td>
                <div style="display: flex;flex-wrap: nowrap; justify-content: center">
-                    <div style="margin-right:20px"><button type="button" onclick="editarLugar(${element.id})">Editar Lugar</button></div>
-                    <div><button type="button" onclick="apagarLugar(${element.id})">Apagar Lugar</button></div>
+                    <div style="margin-right:20px"><button type="button" class="btn btn-primary" onclick="editarLugar(${element.id})">Editar Lugar</button></div>
+                    <div><button type="button" class="btn btn-danger" onclick="apagarLugar(${element.id})">Apagar Lugar</button></div>
                 </div>
                </td>
            </tr> `

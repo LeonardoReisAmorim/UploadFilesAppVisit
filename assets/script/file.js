@@ -25,9 +25,9 @@ fetch(url+"Arquivo/dadosArquivos")
                <td>${element.nomeArquivo}</td>
                <td>${element.dataCriacao}</td>
                <td>
-               <div style="display: flex;flex-wrap: nowrap; justify-content: center">
-                    <div style="margin-right:20px"><button type="button" onclick="editarArquivo(${element.id})">Editar Arquivo</button></div>
-                    <div><button type="button" onclick="apagarArquivo(${element.id})">Apagar Arquivo</button></div>
+               <div style="display: flex;flex-wrap: nowrap;">
+                    <div style="margin-right:20px"><button type="button" class="btn btn-primary" onclick="editarArquivo(${element.id})">Substituir Arquivo</button></div>
+                    <div><button type="button" class="btn btn-danger" onclick="apagarArquivo(${element.id})">Apagar Arquivo</button></div>
                 </div>
                </td>
            </tr> `
@@ -150,7 +150,7 @@ function criarModal(){
     var modal = document.getElementById("myModal");
     modal.style.display = "block";
 
-    var span = document.getElementsByClassName("close")[0];
+    var span = document.getElementsByClassName("close1")[0];
     span.onclick = function() {
         refreshDados();
       modal.style.display = "none";
