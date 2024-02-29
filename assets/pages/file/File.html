@@ -42,19 +42,19 @@
     <div class="modal-content1">
       <span class="close1">&times;</span>
 
-      <label for="nomeArquivo">Digite o nome do arquivo</label>
-      <input type="text" id="nomeArquivo">
-
-      <label style="display: none;" id="labelEditFile" for="nomeArquivoEdit">Necessário realizar upload do novo arquivo</label>
       <input type="text" hidden id="idFile">
-      <div class="">
-          <input type="file" class="" id="selecao-arquivo" onchange="InputFileChange()">
-          <label class="btn-2" for="selecao-arquivo" id="labelArquivo">Selecione os arquivos</label>
-      </div>
 
-      <div class="" style="display: none;" id="salvar-anexos">
+      <label for="nomeArquivo">Digite o nome do arquivo</label>
+      <input type="text" class="form-control" id="nomeArquivo">
+      <br><br>
+      <label style="display: none;" id="labelEditFile" for="nomeArquivoEdit">Necessário realizar upload do novo arquivo</label>
+      
+      <input class="form-control" type="file" id="selecao-arquivo" onchange="InputFileChange()">
+      <label class="btn-2" for="selecao-arquivo" id="labelArquivo">Selecione o arquivo</label>
+
+      <div class="buttonInputFile" style="display: none;" id="salvar-anexos">
           <a class="" onclick="ChamarAjaxComArquivos()">
-              Enviar Arquivos
+              Enviar Arquivo
           </a>
       </div>
     </div>

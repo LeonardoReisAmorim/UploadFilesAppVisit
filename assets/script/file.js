@@ -84,11 +84,13 @@ function InputFileChange() {
     let quantidade = document.getElementById("selecao-arquivo").files.length;
     if (quantidade > 0) {
         document.getElementById('salvar-anexos').style.display = "block";
+        document.getElementById("labelArquivo").innerHTML = `${quantidade} Arquivo Selecionado`; 
     }
     else {
         document.getElementById('salvar-anexos').style.display = "none";
+        document.getElementById("labelArquivo").innerHTML = `Selecione os arquivos`; 
     }
-    document.getElementById("labelArquivo").innerHTML = `${quantidade} Arquivo(s) Selecionado(s)`; 
+    
 }
 
 function ChamarAjaxComArquivos() {
@@ -108,7 +110,7 @@ function ChamarAjaxComArquivos() {
     }
 
     if(!nomearquivo){
-        alert("necessario do nome do arquivo");
+        alert("necessario o nome do arquivo");
         return
     }
 
@@ -153,11 +155,13 @@ function criarModal(){
     var span = document.getElementsByClassName("close1")[0];
     span.onclick = function() {
         refreshDados();
+        InputFileChange();
       modal.style.display = "none";
     }
     window.onclick = function(event) {
         if (event.target == modal) {
             refreshDados();
+            InputFileChange();
             modal.style.display = "none";
         }
     }
@@ -168,4 +172,5 @@ function refreshDados(){
     document.getElementById("nomeArquivo").value = "";
     document.getElementById("labelEditFile").style.display = "none";
     document.getElementById("idFile").value = "";
+    document.getElementById("selecao-arquivo").value = '';
 }

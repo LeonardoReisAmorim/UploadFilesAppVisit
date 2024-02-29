@@ -60,8 +60,8 @@ function editarLugar(id){
             document.getElementById("cities").value = place[0].cidadeId;
             document.getElementById("files").value = place[0].arquivoId;
             document.getElementById("display").src = "data:image/png;base64,"+place[0].imagem;
-            document.getElementById("display").style.width = "100%";
-            document.getElementById("display").style.height = "500px";
+            document.getElementById("display").style.width = "30%";
+            document.getElementById("display").style.height = "30%";
             document.getElementById("createPlace").innerHTML = "EDITAR LUGAR"
         });
     });
@@ -207,8 +207,8 @@ document.getElementById("imagePlace").addEventListener('change', ()=>{
     reader.onload = function () {
         var imageDisplay = document.getElementById("display");
         imageDisplay.src = reader.result;
-        imageDisplay.style.width = "100%";
-        imageDisplay.style.height = "500px";
+        imageDisplay.style.width = "30%";
+        imageDisplay.style.height = "30%";
     };
     reader.onerror = function (error) {
         console.log('Error: ', error);
@@ -219,7 +219,7 @@ function criarModal(){
     var modal = document.getElementById("myModal");
     modal.style.display = "block";
 
-    var span = document.getElementsByClassName("close")[0];
+    var span = document.getElementsByClassName("close1")[0];
     span.onclick = function() {
         refreshDados();
       modal.style.display = "none";
@@ -240,6 +240,7 @@ function refreshDados(){
     document.getElementById("cities").value = "";
     document.getElementById("files").value = "";
     document.getElementById("display").src = "";
+    document.getElementById("imagePlace").value = "";
     document.getElementById("display").style.width = "0";
     document.getElementById("display").style.height = "0";
     document.getElementById("createPlace").innerHTML = "CRIAR LUGAR"

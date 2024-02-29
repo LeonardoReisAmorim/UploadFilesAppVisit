@@ -119,3 +119,25 @@ body {
     color: white;
     text-decoration: none;
 }
+
+.inputText{
+    width: 80%;
+}
+
+.buttonInputFile{
+    margin-top: 30px;
+    background-color: #65278B;
+    width: 200px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 30px;
+}
+
+.buttonInputFile a{
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: white !important;
+}

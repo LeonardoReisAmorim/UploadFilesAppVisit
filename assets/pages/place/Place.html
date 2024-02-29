@@ -33,40 +33,41 @@
     </table>
   </div>
 
-  <div id="myModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
+  <div id="myModal" class="modal1">
+    <div class="modal-content1">
+      <span class="close1">&times;</span>
 
       <input type="text" hidden id="idplace">
 
       <label for="namePlace">Digite o nome do lugar</label>
-      <input type="text" id="namePlace">
+      <input type="text" class="form-control" id="namePlace">
       <br>
 
       <label for="descriptionPlace">Digite a descrição do lugar</label>
-      <input type="text" id="descriptionPlace">
+      <input type="text" class="form-control" id="descriptionPlace">
       <br>
 
       <label for="cityPlace">Escolha a cidade em que o lugar está</label>
-      <select name="cities" id="cities">
+      <select class="form-control" name="cities" id="cities">
           <option value="">Escolha uma opção</option>
       </select>
       <br>
 
       <label for="filePlace">Escolha o arquivo do ambiente virtual</label>
-      <select name="files" id="files">
+      <select class="form-control" name="files" id="files">
           <option value="">Escolha uma opção</option>
       </select>
       <br>
 
-      <label for="imagePlace">Seleciona a imagem do lugar</label>
-      <input type="file" id="imagePlace" name="imagePlace" accept="image/png, image/jpeg"/>
-      <br>
+      <div class="form-group">
+        <label for="imagePlace">Selecione a imagem do lugar</label>
+        <input type="file" class="form-control-file" id="imagePlace" name="imagePlace" accept="image/png, image/jpeg"/>
+      </div>
       
       <img id="display" src="">
-      <br>
+      <br><br>
 
-      <button id="createPlace">CRIAR LUGAR</button>
+      <button type="button" id="createPlace">CRIAR LUGAR</button>
     </div>
   </div>
     
