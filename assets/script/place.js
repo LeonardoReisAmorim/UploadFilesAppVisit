@@ -1,77 +1,9 @@
 var url = "https://localhost:7011/";
 
-fetch(url+"Lugar")
-.then(response => {
-    if(!response.ok){
-        alert('falhou a requisição');
-        return;
-    }
+async function GetLugares(){
+    try{
+        let response = await fetch(url+"Lugar");
 
-    if (response.status === 404) {
-        alert('não encontrou qualquer resultado');
-        return;
-    }
-
-    document.getElementById("loading").style.display = "none";
-
-    response.json().then(places => {
-        places.forEach(element => {
-            var table = document.getElementById("tablePlace");
-            var row = document.createElement("tr");
-            row.innerHTML = 
-            `<tr>
-               <td>${element.id}</td>
-               <td>${element.nome}</td>
-               <td>${element.descricao}</td>
-               <td>${element.cidade}</td>
-               <td>${element.nomeArquivo}</td>
-               <td>
-               <div style="display: flex;flex-wrap: nowrap; justify-content: center">
-                    <div style="margin-right:20px"><button type="button" class="btn btn-primary" onclick="editarLugar(${element.id})">Editar Lugar</button></div>
-                    <div><button type="button" class="btn btn-danger" onclick="apagarLugar(${element.id})">Apagar Lugar</button></div>
-                </div>
-               </td>
-           </tr> `
-           table.appendChild(row);
-        });
-    });
-});
-
-function editarLugar(id){
-    criarModal();
-
-    fetch(url+`Lugar/${id}`)
-    .then(response => {
-        if(!response.ok){
-            alert('falhou a requisição');
-            return;
-        }
-
-        if (response.status === 404) {
-            alert('não encontrou qualquer resultado');
-            return;
-        }
-
-        response.json()
-        .then(place => {
-            document.getElementById("idplace").value = place[0].id;
-            document.getElementById("namePlace").value = place[0].nome;
-            document.getElementById("descriptionPlace").value = place[0].descricao;
-            document.getElementById("cities").value = place[0].cidadeId;
-            document.getElementById("files").value = place[0].arquivoId;
-            document.getElementById("display").src = "data:image/png;base64,"+place[0].imagem;
-            document.getElementById("display").style.width = "30%";
-            document.getElementById("display").style.height = "30%";
-            document.getElementById("createPlace").innerHTML = "EDITAR LUGAR"
-        });
-    });
-}
-
-function apagarLugar(id){
-    fetch(url+`Lugar/${id}`,{
-        method: 'DELETE'
-    })
-    .then(response => {
         if(!response.ok){
             alert('falhou a requisição');
             return;
@@ -81,54 +13,128 @@ function apagarLugar(id){
             alert('não encontrou qualquer resultado');
             return;
         }
-
-        alert('lugar apagado com sucesso');
-        location.reload();
-    });
+    
+        document.getElementById("loading").style.display = "none";
+    
+        return await response.json();
+    }catch(erro){
+        alert("Ocorreu um erro ao tentar obter os dados");
+    }
 }
 
-fetch(url+"Cidade")
-.then(response => {
-    if(!response.ok){
-        alert('falhou a requisição')
-        return 
-    }
-
-    if (response.status === 404) {
-        alert('não encontrou qualquer resultado')
-        return
-    }
-
-    response.json().then(cidades => {
-        for(var cidade of cidades){
-            let option = document.createElement("option");
-            option.value = cidade.id;
-            option.text = cidade.nome;
-            document.getElementById("cities").appendChild(option)
-        }
+GetLugares().then(places => {
+    places.forEach(element => {
+        var table = document.getElementById("tablePlace");
+        var row = document.createElement("tr");
+        row.innerHTML = 
+        `<tr>
+           <td>${element.id}</td>
+           <td>${element.nome}</td>
+           <td>${element.descricao}</td>
+           <td>${element.cidade}</td>
+           <td>${element.nomeArquivo}</td>
+           <td>
+           <div style="display: flex;flex-wrap: nowrap; justify-content: center">
+                <div style="margin-right:20px"><button type="button" class="btn btn-primary" onclick="GetLugarById(${element.id})">Editar Lugar</button></div>
+                <div><button type="button" class="btn btn-danger" onclick="apagarLugar(${element.id})">Apagar Lugar</button></div>
+            </div>
+           </td>
+       </tr> `
+       table.appendChild(row);
     });
 });
 
-fetch(url+"Arquivo/dadosArquivos")
-.then(response => {
+async function GetLugarById(id){
+    criarModal();
+
+    let response = await fetch(url+`Lugar/${id}`);
+    
+    if(!response.ok){
+        alert('falhou a requisição');
+        return;
+    }
+    if (response.status === 404) {
+        alert('não encontrou qualquer resultado');
+        return;
+    }
+
+    await response.json().then(place => {
+        document.getElementById("idplace").value = place[0].id;
+        document.getElementById("namePlace").value = place[0].nome;
+        document.getElementById("descriptionPlace").value = place[0].descricao;
+        document.getElementById("cities").value = place[0].cidadeId;
+        document.getElementById("files").value = place[0].arquivoId;
+        document.getElementById("display").src = "data:image/png;base64,"+place[0].imagem;
+        document.getElementById("display").style.width = "30%";
+        document.getElementById("display").style.height = "30%";
+        document.getElementById("createPlace").innerHTML = "EDITAR LUGAR"
+    });
+}
+
+async function apagarLugar(id){
+    let response = await fetch(url+`Lugar/${id}`,{
+        method: 'DELETE'
+    })
+
+    if(!response.ok){
+        alert('falhou a requisição');
+        return;
+    }
+    if (response.status === 404) {
+        alert('não encontrou qualquer resultado');
+        return;
+    }
+
+    alert('lugar apagado com sucesso');
+    location.reload();
+}
+
+async function GetCidades(){
+    let response = await fetch(url+"Cidade");
+
     if(!response.ok){
         alert('falhou a requisição')
         return 
     }
-
     if (response.status === 404) {
         alert('não encontrou qualquer resultado')
         return
     }
 
-    response.json().then(files => {
-        for(var file of files){
-            let option = document.createElement("option");
-            option.value = file.id;
-            option.text = file.nomeArquivo;
-            document.getElementById("files").appendChild(option)
-        }
-    });
+    return await response.json()
+}
+
+GetCidades().then(cidades => {
+    for(var cidade of cidades){
+        let option = document.createElement("option");
+        option.value = cidade.id;
+        option.text = cidade.nome;
+        document.getElementById("cities").appendChild(option)
+    }
+});
+
+async function GetDadosArquivos(){
+    let response = await fetch(url+"Arquivo/dadosArquivos");
+    
+    if(!response.ok){
+        alert('falhou a requisição')
+        return 
+    }
+    if (response.status === 404) {
+        alert('não encontrou qualquer resultado')
+        return
+    }
+
+    return await response.json();
+}
+
+GetDadosArquivos().then(files => {
+    for(var file of files){
+        let option = document.createElement("option");
+        option.value = file.id;
+        option.text = file.nomeArquivo;
+        document.getElementById("files").appendChild(option)
+    }
 });
 
 document.getElementById("createPlace").addEventListener('click', ()=>{
@@ -165,36 +171,42 @@ document.getElementById("createPlace").addEventListener('click', ()=>{
     CreateOrEditPlace(lugar, urlplace, method);
 });
 
-function CreateOrEditPlace(lugarParametro, urlplace, method){
+async function CreateOrEditPlace(lugarParametro, urlplace, method){
+
+    document.getElementById("loading").style.display = "block";
+    document.getElementById("loading").style.zIndex = 99999;
+
     try{
-        fetch(urlplace, {
+        let response = await fetch(urlplace, {
             method: method,
             body: JSON.stringify(lugarParametro),
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }
         })
-        .then(result => {
-            if(!result.ok){
-                alert('falhou a requisição')
-                return 
-            }
-    
-            if (result.status === 404) {
-                alert('não encontrou qualquer resultado')
-                return
-            }
 
-            if(result.status == 204){
-                alert("lugar atualizado com sucesso");
-                window.location = "/assets/pages/place/Place.html";
-                return
-            }
-    
-            alert("lugar criado com sucesso");
+        if(!response.ok){
+            alert('falhou a requisição')
+            return 
+        }
+        if (response.status === 404) {
+            alert('não encontrou qualquer resultado')
+            return
+        }
+
+        if(response.status == 204){
+            document.getElementById("loading").style.display = "none";
+            alert("lugar atualizado com sucesso");
             window.location = "/assets/pages/place/Place.html";
-        });
+            return
+        }
+
+        document.getElementById("loading").style.display = "none";
+        alert("lugar criado com sucesso");
+        window.location = "/assets/pages/place/Place.html";
+
     }catch(error){
+        document.getElementById("loading").style.display = "none";
         alert(error);
     }
     

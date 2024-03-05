@@ -1,38 +1,43 @@
 var url = "https://localhost:7011/";
 
-fetch(url+"Arquivo/dadosArquivos")
-.then(response => {
-    if(!response.ok){
-        alert('falhou a requisição');
-        return;
+async function GetDadosArquivos(){
+    try{
+        let response = await fetch(url+"Arquivo/dadosArquivos");
+
+        if(!response.ok){
+            alert('falhou a requisição');
+            return;
+        }
+        if (response.status === 404) {
+            alert('não encontrou qualquer resultado');
+            return;
+        }
+    
+        document.getElementById("loading").style.display = "none";
+    
+        return await response.json();
+    }catch(erro){
+        alert("Ocorreu um erro ao tentar obter os dados");
     }
+}
 
-    if (response.status === 404) {
-        alert('não encontrou qualquer resultado');
-        return;
-    }
-
-    document.getElementById("loading").style.display = "none";
-
-    response.json()
-    .then(files => {
-        files.forEach(element => {
-            var table = document.getElementById("tableFile");
-            var row = document.createElement("tr");
-            row.innerHTML = 
-            `<tr>
-               <td>${element.id}</td>
-               <td>${element.nomeArquivo}</td>
-               <td>${element.dataCriacao}</td>
-               <td>
-               <div style="display: flex;flex-wrap: nowrap;">
-                    <div style="margin-right:20px"><button type="button" class="btn btn-primary" onclick="editarArquivo(${element.id})">Substituir Arquivo</button></div>
-                    <div><button type="button" class="btn btn-danger" onclick="apagarArquivo(${element.id})">Apagar Arquivo</button></div>
-                </div>
-               </td>
-           </tr> `
-           table.appendChild(row);
-        });
+GetDadosArquivos().then(files => {
+    files.forEach(element => {
+        var table = document.getElementById("tableFile");
+        var row = document.createElement("tr");
+        row.innerHTML = 
+        `<tr>
+           <td>${element.id}</td>
+           <td>${element.nomeArquivo}</td>
+           <td>${element.dataCriacao}</td>
+           <td>
+           <div style="display: flex;flex-wrap: nowrap;">
+                <div style="margin-right:20px"><button type="button" class="btn btn-primary" onclick="editarArquivo(${element.id})">Substituir Arquivo</button></div>
+                <div><button type="button" class="btn btn-danger" onclick="apagarArquivo(${element.id})">Apagar Arquivo</button></div>
+            </div>
+           </td>
+       </tr> `
+       table.appendChild(row);
     });
 });
 
@@ -121,6 +126,8 @@ function ChamarAjaxComArquivos() {
         DataCriacao: new Date().toLocaleString('en-US').replace(',','')
     }));
 
+    document.getElementById("loading").style.display = "block";
+    document.getElementById("loading").style.zIndex = 99999;
     try{
         fetch(urlFile, {
             method: method,
@@ -138,12 +145,14 @@ function ChamarAjaxComArquivos() {
             }
 
             result.json().then(arquivo => {
+                document.getElementById("loading").style.display = "none";
                 alert("Arquivo importado com sucesso");
                 window.location = "/assets/pages/file/File.html";
             });
         })
         
     }catch(error){
+        document.getElementById("loading").style.display = "none";
         alert(error);
     }
 }

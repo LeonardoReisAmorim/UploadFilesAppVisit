@@ -42,10 +42,6 @@ body {
     font-size: 2.5rem;
 }
 
-.titleFile{
-    margin-top: 5%;
-}
-
 .containerTable{
     margin: auto;
     width: 80%;
@@ -56,7 +52,7 @@ body {
 }
 
 .itensFile{
-    margin-top: 10%;
+    margin-top: 3%;
     margin-bottom: 2%;
     width: 100%;
     display: flex;
