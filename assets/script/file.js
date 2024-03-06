@@ -135,6 +135,7 @@ function ChamarAjaxComArquivos() {
         })
         .then((result) => {
             if(!result.ok){
+                document.getElementById("loading").style.display = "none";
                 alert(result.status);
                 return
             }
