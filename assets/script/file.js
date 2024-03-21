@@ -17,7 +17,8 @@ async function GetDadosArquivos(){
     
         return await response.json();
     }catch(erro){
-        alert("Ocorreu um erro ao tentar obter os dados");
+        document.getElementsByClassName("containerTable")[0].style.display = "none";
+        document.getElementsByClassName("errorServer")[0].style.display = "block";
     }
 }
 
@@ -27,7 +28,6 @@ GetDadosArquivos().then(files => {
         var row = document.createElement("tr");
         row.innerHTML = 
         `<tr>
-           <td>${element.id}</td>
            <td>${element.nomeArquivo}</td>
            <td>${element.dataCriacao}</td>
            <td>
@@ -62,10 +62,18 @@ function editarArquivo(id){
             document.getElementById("labelEditFile").style.display = "block";
             document.getElementById("idFile").value = file[0].id;
         });
+    }).catch((erro)=>{
+        fecharModal();
+        document.getElementById("loading").style.display = "none";
+        document.getElementsByClassName("containerTable")[0].style.display = "none";
+        document.getElementsByClassName("errorServer")[0].style.display = "block";
     });
 }
 
 function apagarArquivo(id){
+    document.getElementById("loading").style.display = "block";
+    document.getElementById("loading").style.zIndex = 99999;
+
     fetch(url+`Arquivo/${id}`,{
         method: 'DELETE'
     })
@@ -80,8 +88,13 @@ function apagarArquivo(id){
             return;
         }
 
+        document.getElementById("loading").style.display = "none";
         alert('arquivo apagado com sucesso');
         location.reload();
+    }).catch((erro)=>{
+        document.getElementById("loading").style.display = "none";
+        document.getElementsByClassName("containerTable")[0].style.display = "none";
+        document.getElementsByClassName("errorServer")[0].style.display = "block";
     });
 }
 
@@ -128,34 +141,37 @@ function ChamarAjaxComArquivos() {
 
     document.getElementById("loading").style.display = "block";
     document.getElementById("loading").style.zIndex = 99999;
-    try{
-        fetch(urlFile, {
-            method: method,
-            body: formData
-        })
-        .then((result) => {
-            if(!result.ok){
-                document.getElementById("loading").style.display = "none";
-                alert(result.status);
-                return
-            }
 
-            if(result.status === 204){
-                alert("Arquivo atualizado com sucesso");
-                window.location = "/assets/pages/file/File.html";
-            }
+    fetch(urlFile, {
+        method: method,
+        body: formData
+    })
+    .then((result) => {
+        if(!result.ok){
+            document.getElementById("loading").style.display = "none";
+            alert(result.status);
+            return
+        }
 
-            result.json().then(arquivo => {
-                document.getElementById("loading").style.display = "none";
-                alert("Arquivo importado com sucesso");
-                window.location = "/assets/pages/file/File.html";
-            });
-        })
-        
-    }catch(error){
+        if(result.status === 204){
+            document.getElementById("loading").style.display = "none";
+            alert("Arquivo atualizado com sucesso");
+            location.reload();
+        }
+
+        result.json().then(arquivo => {
+            document.getElementById("loading").style.display = "none";
+            alert("Arquivo importado com sucesso");
+            location.reload();
+        });
+    }).catch((erro)=>{
+        fecharModal();
         document.getElementById("loading").style.display = "none";
-        alert(error);
-    }
+        document.getElementsByClassName("containerTable")[0].style.display = "none";
+        document.getElementsByClassName("errorServer")[0].style.display = "block";
+    });
+        
+    
 }
 
 function criarModal(){
@@ -175,6 +191,11 @@ function criarModal(){
             modal.style.display = "none";
         }
     }
+}
+
+function fecharModal(){
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none"
 }
 
 

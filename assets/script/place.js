@@ -18,7 +18,8 @@ async function GetLugares(){
     
         return await response.json();
     }catch(erro){
-        alert("Ocorreu um erro ao tentar obter os dados");
+        document.getElementsByClassName("containerTable")[0].style.display = "none";
+        document.getElementsByClassName("errorServer")[0].style.display = "block";
     }
 }
 
@@ -28,7 +29,6 @@ GetLugares().then(places => {
         var row = document.createElement("tr");
         row.innerHTML = 
         `<tr>
-           <td>${element.id}</td>
            <td>${element.nome}</td>
            <td>${element.descricao}</td>
            <td>${element.cidade}</td>
@@ -47,46 +47,63 @@ GetLugares().then(places => {
 async function GetLugarById(id){
     criarModal();
 
-    let response = await fetch(url+`Lugar/${id}`);
+    try{
+        let response = await fetch(url+`Lugar/${id}`);
     
-    if(!response.ok){
-        alert('falhou a requisição');
-        return;
+        if(!response.ok){
+            alert('falhou a requisição');
+            return;
+        }
+        if (response.status === 404) {
+            alert('não encontrou qualquer resultado');
+            return;
+        }
+    
+        await response.json().then(place => {
+            document.getElementById("idplace").value = place[0].id;
+            document.getElementById("namePlace").value = place[0].nome;
+            document.getElementById("descriptionPlace").value = place[0].descricao;
+            document.getElementById("cities").value = place[0].cidadeId;
+            document.getElementById("files").value = place[0].arquivoId;
+            document.getElementById("display").src = "data:image/png;base64,"+place[0].imagem;
+            document.getElementById("display").style.width = "30%";
+            document.getElementById("display").style.height = "30%";
+            document.getElementById("createPlace").innerHTML = "EDITAR LUGAR"
+        });
+    }catch(erro){
+        fecharModal();
+        document.getElementsByClassName("containerTable")[0].style.display = "none";
+        document.getElementsByClassName("errorServer")[0].style.display = "block";
     }
-    if (response.status === 404) {
-        alert('não encontrou qualquer resultado');
-        return;
-    }
-
-    await response.json().then(place => {
-        document.getElementById("idplace").value = place[0].id;
-        document.getElementById("namePlace").value = place[0].nome;
-        document.getElementById("descriptionPlace").value = place[0].descricao;
-        document.getElementById("cities").value = place[0].cidadeId;
-        document.getElementById("files").value = place[0].arquivoId;
-        document.getElementById("display").src = "data:image/png;base64,"+place[0].imagem;
-        document.getElementById("display").style.width = "30%";
-        document.getElementById("display").style.height = "30%";
-        document.getElementById("createPlace").innerHTML = "EDITAR LUGAR"
-    });
+    
 }
 
 async function apagarLugar(id){
-    let response = await fetch(url+`Lugar/${id}`,{
-        method: 'DELETE'
-    })
+    document.getElementById("loading").style.display = "block";
+    document.getElementById("loading").style.zIndex = 99999;
 
-    if(!response.ok){
-        alert('falhou a requisição');
-        return;
+    try{
+        let response = await fetch(url+`Lugar/${id}`,{
+            method: 'DELETE'
+        })
+    
+        if(!response.ok){
+            alert('falhou a requisição');
+            return;
+        }
+        if (response.status === 404) {
+            alert('não encontrou qualquer resultado');
+            return;
+        }
+    
+        document.getElementById("loading").style.display = "none";
+        alert('lugar apagado com sucesso');
+        location.reload();
+    }catch(erro){
+        document.getElementsByClassName("containerTable")[0].style.display = "none";
+        document.getElementsByClassName("errorServer")[0].style.display = "block";
     }
-    if (response.status === 404) {
-        alert('não encontrou qualquer resultado');
-        return;
-    }
-
-    alert('lugar apagado com sucesso');
-    location.reload();
+    
 }
 
 async function GetCidades(){
@@ -197,17 +214,19 @@ async function CreateOrEditPlace(lugarParametro, urlplace, method){
         if(response.status == 204){
             document.getElementById("loading").style.display = "none";
             alert("lugar atualizado com sucesso");
-            window.location = "/assets/pages/place/Place.html";
+            location.reload();
             return
         }
 
         document.getElementById("loading").style.display = "none";
         alert("lugar criado com sucesso");
-        window.location = "/assets/pages/place/Place.html";
+        location.reload();
 
     }catch(error){
+        fecharModal();
         document.getElementById("loading").style.display = "none";
-        alert(error);
+        document.getElementsByClassName("containerTable")[0].style.display = "none";
+        document.getElementsByClassName("errorServer")[0].style.display = "block";
     }
     
 }
@@ -244,6 +263,10 @@ function criarModal(){
     }
 }
 
+function fecharModal(){
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
+}
 
 function refreshDados(){
     document.getElementById("idplace").value = "";
