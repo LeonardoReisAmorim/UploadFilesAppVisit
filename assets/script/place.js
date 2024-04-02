@@ -180,7 +180,7 @@ document.getElementById("createPlace").addEventListener('click', ()=>{
         Imagem: imagemBase64
     }
 
-    if(!cidadeId || !nomeLugar || !descricaoLugar || !arquivoId){
+    if(!lugar.CidadeId || !lugar.Nome || !lugar.Descricao || !lugar.ArquivoId){
         alert("necessario preencher todos os campos");
         return
     }

@@ -147,9 +147,11 @@ function ChamarAjaxComArquivos() {
         body: formData
     })
     .then((result) => {
-        if(!result.ok){
+        if(!result.ok && result.status === 400){
             document.getElementById("loading").style.display = "none";
-            alert(result.status);
+            result.json().then(x => {
+                alert(x.error);
+            });
             return
         }
 
