@@ -33,6 +33,7 @@ GetLugares().then(places => {
            <td>${element.descricao}</td>
            <td>${element.cidade}</td>
            <td>${element.nomeArquivo}</td>
+           <td>${element.instrucoesUtilizacaoVR}</td>
            <td>
            <div style="display: flex;flex-wrap: nowrap; justify-content: center">
                 <div style="margin-right:20px"><button type="button" class="btn btn-primary" onclick="GetLugarById(${element.id})">Editar Lugar</button></div>
@@ -65,6 +66,7 @@ async function GetLugarById(id){
             document.getElementById("descriptionPlace").value = place[0].descricao;
             document.getElementById("cities").value = place[0].cidadeId;
             document.getElementById("files").value = place[0].arquivoId;
+            document.getElementById("instructionVRPlace").value = place[0].instrucoesUtilizacaoVR;
             document.getElementById("display").src = "data:image/png;base64,"+place[0].imagem;
             document.getElementById("display").style.width = "30%";
             document.getElementById("display").style.height = "30%";
@@ -161,6 +163,7 @@ document.getElementById("createPlace").addEventListener('click', ()=>{
     let imagemBase64 = document.getElementById("display").src.replace('data:', '').replace(/^.+,/, '');
     let arquivoId = parseInt(document.getElementById("files").value);
     let idplace = document.getElementById("idplace").value
+    let instrucoesUtilizacaoVR = document.getElementById("instructionVRPlace").value;
     let urlplace;
     let method;
 
@@ -177,11 +180,12 @@ document.getElementById("createPlace").addEventListener('click', ()=>{
         Descricao: descricaoLugar,
         ArquivoId: arquivoId,
         CidadeId: cidadeId,
-        Imagem: imagemBase64
+        Imagem: imagemBase64,
+        InstrucoesUtilizacaoVR: instrucoesUtilizacaoVR
     }
 
-    if(!lugar.CidadeId || !lugar.Nome || !lugar.Descricao || !lugar.ArquivoId){
-        alert("necessario preencher todos os campos");
+    if(!lugar.CidadeId || !lugar.Nome || !lugar.Descricao || !lugar.ArquivoId || !lugar.InstrucoesUtilizacaoVR){
+        alert("os campos Cidade, Nome, Descricao, Arquivo e Instrucoes são obrigatórias");
         return
     }
 
@@ -274,6 +278,7 @@ function refreshDados(){
     document.getElementById("descriptionPlace").value = "";
     document.getElementById("cities").value = "";
     document.getElementById("files").value = "";
+    document.getElementById("instructionVRPlace").value = "";
     document.getElementById("display").src = "";
     document.getElementById("imagePlace").value = "";
     document.getElementById("display").style.width = "0";
