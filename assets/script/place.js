@@ -1,8 +1,9 @@
 var url = "https://localhost:7011/";
+var endpoint = "Lugar";
 
 async function GetLugares(){
     try{
-        let response = await fetch(url+"Lugar");
+        let response = await fetch(url+endpoint);
 
         if(!response.ok){
             alert('falhou a requisição');
@@ -25,7 +26,7 @@ async function GetLugares(){
 
 GetLugares().then(places => {
     places.forEach(element => {
-        var table = document.getElementById("tablePlace");
+        var table = document.getElementById("table");
         var row = document.createElement("tr");
         row.innerHTML = 
         `<tr>
@@ -49,7 +50,7 @@ async function GetLugarById(id){
     criarModal();
 
     try{
-        let response = await fetch(url+`Lugar/${id}`);
+        let response = await fetch(url+`${endpoint}/${id}`);
     
         if(!response.ok){
             alert('falhou a requisição');
@@ -85,7 +86,7 @@ async function apagarLugar(id){
     document.getElementById("loading").style.zIndex = 99999;
 
     try{
-        let response = await fetch(url+`Lugar/${id}`,{
+        let response = await fetch(url+`${endpoint}/${id}`,{
             method: 'DELETE'
         })
     
@@ -168,10 +169,10 @@ document.getElementById("createPlace").addEventListener('click', ()=>{
     let method;
 
     if(!idplace){
-        urlplace = url+"Lugar";
+        urlplace = url+endpoint;
         method = "POST";
     }else{
-        urlplace = url+`Lugar/${idplace}`
+        urlplace = url+`${endpoint}/${idplace}`
         method = "PUT"
     }
 

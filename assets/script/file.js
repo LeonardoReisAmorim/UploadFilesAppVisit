@@ -1,8 +1,9 @@
 var url = "https://localhost:7011/";
+var endpoint = "Arquivo";
 
 async function GetDadosArquivos(){
     try{
-        let response = await fetch(url+"Arquivo/dadosArquivos");
+        let response = await fetch(url+`${endpoint}/dadosArquivos`);
 
         if(!response.ok){
             alert('falhou a requisição');
@@ -24,7 +25,7 @@ async function GetDadosArquivos(){
 
 GetDadosArquivos().then(files => {
     files.forEach(element => {
-        var table = document.getElementById("tableFile");
+        var table = document.getElementById("table");
         var row = document.createElement("tr");
         row.innerHTML = 
         `<tr>
@@ -44,7 +45,7 @@ GetDadosArquivos().then(files => {
 function editarArquivo(id){
     criarModal();
 
-    fetch(url+`Arquivo/dadosArquivos/${id}`)
+    fetch(url+`${endpoint}/dadosArquivos/${id}`)
     .then(response => {
         if(!response.ok){
             alert('falhou a requisição');
@@ -74,7 +75,7 @@ function apagarArquivo(id){
     document.getElementById("loading").style.display = "block";
     document.getElementById("loading").style.zIndex = 99999;
 
-    fetch(url+`Arquivo/${id}`,{
+    fetch(url+`${endpoint}/${id}`,{
         method: 'DELETE'
     })
     .then(response => {
@@ -120,10 +121,10 @@ function ChamarAjaxComArquivos() {
     let method;
 
     if(!idFile){
-        urlFile = url+"Arquivo";
+        urlFile = url+endpoint;
         method = "POST";
     }else{
-        urlFile = url+`Arquivo/${idFile}`
+        urlFile = url+`${endpoint}/${idFile}`
         method = "PUT"
     }
 
