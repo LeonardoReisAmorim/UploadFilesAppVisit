@@ -210,8 +210,13 @@ async function CreateOrEditPlace(lugarParametro, urlplace, method){
         })
 
         if(!response.ok){
-            alert('falhou a requisição')
-            return 
+            document.getElementById("loading").style.display = "none";
+            response.text().then(x => {
+                const match = x.match(/^System\.Exception: .*/m);
+                const exceptionLine = match ? match[0] : null;
+                alert(exceptionLine.split(": ")[1]);
+            });
+            return
         }
         if (response.status === 404) {
             alert('não encontrou qualquer resultado')
