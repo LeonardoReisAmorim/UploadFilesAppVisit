@@ -72,31 +72,33 @@ async function GetEstadoById(id){
 }
 
 async function apagarEstado(id){
-    document.getElementById("loading").style.display = "block";
-    document.getElementById("loading").style.zIndex = 99999;
-
-    try{
-        let response = await fetch(url+`${endpoint}/${id}`,{
-            method: 'DELETE'
-        })
+    if(confirm("Tem certeza que deseja excluir"))
+    {
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("loading").style.zIndex = 99999;
     
-        if(!response.ok){
-            alert('falhou a requisição');
-            return;
+        try{
+            let response = await fetch(url+`${endpoint}/${id}`,{
+                method: 'DELETE'
+            })
+        
+            if(!response.ok){
+                alert('falhou a requisição');
+                return;
+            }
+            if (response.status === 404) {
+                alert('não encontrou qualquer resultado');
+                return;
+            }
+        
+            document.getElementById("loading").style.display = "none";
+            alert('estado apagado com sucesso');
+            location.reload();
+        }catch(erro){
+            document.getElementsByClassName("containerTable")[0].style.display = "none";
+            document.getElementsByClassName("errorServer")[0].style.display = "block";
         }
-        if (response.status === 404) {
-            alert('não encontrou qualquer resultado');
-            return;
-        }
-    
-        document.getElementById("loading").style.display = "none";
-        alert('estado apagado com sucesso');
-        location.reload();
-    }catch(erro){
-        document.getElementsByClassName("containerTable")[0].style.display = "none";
-        document.getElementsByClassName("errorServer")[0].style.display = "block";
     }
-    
 }
 
 async function GetPaises(){

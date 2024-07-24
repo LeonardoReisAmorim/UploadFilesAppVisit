@@ -72,31 +72,35 @@ function editarArquivo(id){
 }
 
 function apagarArquivo(id){
-    document.getElementById("loading").style.display = "block";
-    document.getElementById("loading").style.zIndex = 99999;
+    if(confirm("Tem certeza que deseja excluir"))
+    {
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("loading").style.zIndex = 99999;
 
-    fetch(url+`${endpoint}/${id}`,{
-        method: 'DELETE'
-    })
-    .then(response => {
-        if(!response.ok){
-            alert('falhou a requisição');
-            return;
-        }
+        fetch(url+`${endpoint}/${id}`,{
+            method: 'DELETE'
+        })
+        .then(response => {
+            if(!response.ok){
+                alert('falhou a requisição');
+                return;
+            }
+        
+            if (response.status === 404) {
+                alert('não encontrou qualquer resultado');
+                return;
+            }
+
+            document.getElementById("loading").style.display = "none";
+            alert('arquivo apagado com sucesso');
+            location.reload();
+        }).catch((erro)=>{
+            document.getElementById("loading").style.display = "none";
+            document.getElementsByClassName("containerTable")[0].style.display = "none";
+            document.getElementsByClassName("errorServer")[0].style.display = "block";
+        });
+    }
     
-        if (response.status === 404) {
-            alert('não encontrou qualquer resultado');
-            return;
-        }
-
-        document.getElementById("loading").style.display = "none";
-        alert('arquivo apagado com sucesso');
-        location.reload();
-    }).catch((erro)=>{
-        document.getElementById("loading").style.display = "none";
-        document.getElementsByClassName("containerTable")[0].style.display = "none";
-        document.getElementsByClassName("errorServer")[0].style.display = "block";
-    });
 }
 
 function InputFileChange() {
