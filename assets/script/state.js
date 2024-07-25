@@ -6,8 +6,13 @@ async function GetEstados(){
         let response = await fetch(url+endpoint);
 
         if(!response.ok){
-            alert('falhou a requisição');
-            return;
+            document.getElementById("loading").style.display = "none";
+            response.text().then(x => {
+                const match = x.match(/^System\.Exception: .*/m);
+                const exceptionLine = match ? match[0] : null;
+                alert(exceptionLine.split(": ")[1]);
+            });
+            return
         }
     
         if (response.status === 404) {
@@ -21,6 +26,7 @@ async function GetEstados(){
     }catch(erro){
         document.getElementsByClassName("containerTable")[0].style.display = "none";
         document.getElementsByClassName("errorServer")[0].style.display = "block";
+        document.getElementById("loading").style.display = "none";
     }
 }
 
@@ -49,9 +55,15 @@ async function GetEstadoById(id){
         let response = await fetch(url+`${endpoint}/${id}`);
     
         if(!response.ok){
-            alert('falhou a requisição');
-            return;
+            document.getElementById("loading").style.display = "none";
+            response.text().then(x => {
+                const match = x.match(/^System\.Exception: .*/m);
+                const exceptionLine = match ? match[0] : null;
+                alert(exceptionLine.split(": ")[1]);
+            });
+            return
         }
+        
         if (response.status === 404) {
             alert('não encontrou qualquer resultado');
             return;
@@ -67,6 +79,7 @@ async function GetEstadoById(id){
         fecharModal();
         document.getElementsByClassName("containerTable")[0].style.display = "none";
         document.getElementsByClassName("errorServer")[0].style.display = "block";
+        document.getElementById("loading").style.display = "none";
     }
     
 }
@@ -83,9 +96,15 @@ async function apagarEstado(id){
             })
         
             if(!response.ok){
-                alert('falhou a requisição');
-                return;
+                document.getElementById("loading").style.display = "none";
+                response.text().then(x => {
+                    const match = x.match(/^System\.Exception: .*/m);
+                    const exceptionLine = match ? match[0] : null;
+                    alert(exceptionLine.split(": ")[1]);
+                });
+                return
             }
+            
             if (response.status === 404) {
                 alert('não encontrou qualquer resultado');
                 return;
@@ -97,6 +116,7 @@ async function apagarEstado(id){
         }catch(erro){
             document.getElementsByClassName("containerTable")[0].style.display = "none";
             document.getElementsByClassName("errorServer")[0].style.display = "block";
+            document.getElementById("loading").style.display = "none";
         }
     }
 }
@@ -105,9 +125,15 @@ async function GetPaises(){
     let response = await fetch(url+"Pais");
 
     if(!response.ok){
-        alert('falhou a requisição')
-        return 
+        document.getElementById("loading").style.display = "none";
+        response.text().then(x => {
+            const match = x.match(/^System\.Exception: .*/m);
+            const exceptionLine = match ? match[0] : null;
+            alert(exceptionLine.split(": ")[1]);
+        });
+        return
     }
+
     if (response.status === 404) {
         alert('não encontrou qualquer resultado')
         return
@@ -168,9 +194,15 @@ async function CreateOrEditEstado(EstadoParametro, urlplace, method){
         })
 
         if(!response.ok){
-            alert('falhou a requisição')
-            return 
+            document.getElementById("loading").style.display = "none";
+            response.text().then(x => {
+                const match = x.match(/^System\.Exception: .*/m);
+                const exceptionLine = match ? match[0] : null;
+                alert(exceptionLine.split(": ")[1]);
+            });
+            return
         }
+        
         if (response.status === 404) {
             alert('não encontrou qualquer resultado')
             return

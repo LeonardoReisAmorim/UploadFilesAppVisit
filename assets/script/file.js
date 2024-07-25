@@ -6,9 +6,15 @@ async function GetDadosArquivos(){
         let response = await fetch(url+`${endpoint}/dadosArquivos`);
 
         if(!response.ok){
-            alert('falhou a requisição');
-            return;
+            document.getElementById("loading").style.display = "none";
+            response.text().then(x => {
+                const match = x.match(/^System\.Exception: .*/m);
+                const exceptionLine = match ? match[0] : null;
+                alert(exceptionLine.split(": ")[1]);
+            });
+            return
         }
+
         if (response.status === 404) {
             alert('não encontrou qualquer resultado');
             return;
@@ -20,6 +26,7 @@ async function GetDadosArquivos(){
     }catch(erro){
         document.getElementsByClassName("containerTable")[0].style.display = "none";
         document.getElementsByClassName("errorServer")[0].style.display = "block";
+        document.getElementById("loading").style.display = "none";
     }
 }
 
@@ -47,9 +54,15 @@ function editarArquivo(id){
 
     fetch(url+`${endpoint}/dadosArquivos/${id}`)
     .then(response => {
+        
         if(!response.ok){
-            alert('falhou a requisição');
-            return;
+            document.getElementById("loading").style.display = "none";
+            response.text().then(x => {
+                const match = x.match(/^System\.Exception: .*/m);
+                const exceptionLine = match ? match[0] : null;
+                alert(exceptionLine.split(": ")[1]);
+            });
+            return
         }
 
         if (response.status === 404) {
@@ -81,9 +94,15 @@ function apagarArquivo(id){
             method: 'DELETE'
         })
         .then(response => {
+
             if(!response.ok){
-                alert('falhou a requisição');
-                return;
+                document.getElementById("loading").style.display = "none";
+                response.text().then(x => {
+                    const match = x.match(/^System\.Exception: .*/m);
+                    const exceptionLine = match ? match[0] : null;
+                    alert(exceptionLine.split(": ")[1]);
+                });
+                return
             }
         
             if (response.status === 404) {
@@ -158,19 +177,26 @@ function ChamarAjaxComArquivos() {
                 alert(x.error);
             });
             return
+        }else if(!response.ok){
+            document.getElementById("loading").style.display = "none";
+            response.text().then(x => {
+                const match = x.match(/^System\.Exception: .*/m);
+                const exceptionLine = match ? match[0] : null;
+                alert(exceptionLine.split(": ")[1]);
+            });
+            return
         }
 
         if(result.status === 204){
             document.getElementById("loading").style.display = "none";
             alert("Arquivo atualizado com sucesso");
             location.reload();
+            return
         }
 
-        result.json().then(arquivo => {
-            document.getElementById("loading").style.display = "none";
-            alert("Arquivo importado com sucesso");
-            location.reload();
-        });
+        document.getElementById("loading").style.display = "none";
+        alert("Arquivo importado com sucesso");
+        location.reload();
     }).catch((erro)=>{
         fecharModal();
         document.getElementById("loading").style.display = "none";

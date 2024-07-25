@@ -2,6 +2,8 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    width: 100vw;
+    height: 100vh;
 }
 
 #container{
@@ -134,4 +136,11 @@ body {
 
 .errorServer{
     display: none;
+}
+
+footer{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
