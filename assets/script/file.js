@@ -49,12 +49,12 @@ GetDadosArquivos().then(files => {
     });
 });
 
-function editarArquivo(id){
+async function editarArquivo(id){
     criarModal();
 
-    fetch(url+`${endpoint}/dadosArquivos/${id}`)
-    .then(response => {
-        
+    try{
+        let response = await fetch(url+`${endpoint}/dadosArquivos/${id}`)
+
         if(!response.ok){
             document.getElementById("loading").style.display = "none";
             response.text().then(x => {
@@ -70,30 +70,29 @@ function editarArquivo(id){
             return;
         }
 
-        response.json()
-        .then(file => {
+        await response.json().then(file => {
             document.getElementById("nomeArquivo").value = file[0].nomeArquivo;
             document.getElementById("labelEditFile").style.display = "block";
             document.getElementById("idFile").value = file[0].id;
         });
-    }).catch((erro)=>{
+    }catch(error){
         fecharModal();
         document.getElementById("loading").style.display = "none";
         document.getElementsByClassName("containerTable")[0].style.display = "none";
         document.getElementsByClassName("errorServer")[0].style.display = "block";
-    });
+    }
 }
 
-function apagarArquivo(id){
+async function apagarArquivo(id){
     if(confirm("Tem certeza que deseja excluir"))
     {
         document.getElementById("loading").style.display = "block";
         document.getElementById("loading").style.zIndex = 99999;
 
-        fetch(url+`${endpoint}/${id}`,{
-            method: 'DELETE'
-        })
-        .then(response => {
+        try{
+            let response = await fetch(url+`${endpoint}/${id}`,{
+                method: 'DELETE'
+            });
 
             if(!response.ok){
                 document.getElementById("loading").style.display = "none";
@@ -113,13 +112,12 @@ function apagarArquivo(id){
             document.getElementById("loading").style.display = "none";
             alert('arquivo apagado com sucesso');
             location.reload();
-        }).catch((erro)=>{
+        }catch(error){
             document.getElementById("loading").style.display = "none";
             document.getElementsByClassName("containerTable")[0].style.display = "none";
             document.getElementsByClassName("errorServer")[0].style.display = "block";
-        });
+        }
     }
-    
 }
 
 function InputFileChange() {
@@ -135,7 +133,7 @@ function InputFileChange() {
     
 }
 
-function ChamarAjaxComArquivos() {
+async function ChamarAjaxComArquivos() {
     let formData = new FormData();
     let file = document.getElementById("selecao-arquivo").files[0];
     let nomearquivo = document.getElementById("nomeArquivo").value;
@@ -166,12 +164,13 @@ function ChamarAjaxComArquivos() {
     document.getElementById("loading").style.display = "block";
     document.getElementById("loading").style.zIndex = 99999;
 
-    fetch(urlFile, {
-        method: method,
-        body: formData
-    })
-    .then((result) => {
-        if(!result.ok && result.status === 400){
+    try{
+        let response = await fetch(urlFile, {
+            method: method,
+            body: formData
+        })
+
+        if(!response.ok && response.status === 400){
             document.getElementById("loading").style.display = "none";
             result.json().then(x => {
                 alert(x.error);
@@ -187,7 +186,7 @@ function ChamarAjaxComArquivos() {
             return
         }
 
-        if(result.status === 204){
+        if(response.status === 204){
             document.getElementById("loading").style.display = "none";
             alert("Arquivo atualizado com sucesso");
             location.reload();
@@ -197,13 +196,12 @@ function ChamarAjaxComArquivos() {
         document.getElementById("loading").style.display = "none";
         alert("Arquivo importado com sucesso");
         location.reload();
-    }).catch((erro)=>{
+    }catch(error){
         fecharModal();
         document.getElementById("loading").style.display = "none";
         document.getElementsByClassName("containerTable")[0].style.display = "none";
         document.getElementsByClassName("errorServer")[0].style.display = "block";
-    });
-        
+    }
     
 }
 
