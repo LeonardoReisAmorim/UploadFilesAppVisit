@@ -172,7 +172,7 @@ async function ChamarAjaxComArquivos() {
 
         if(!response.ok && response.status === 400){
             document.getElementById("loading").style.display = "none";
-            result.json().then(x => {
+            response.json().then(x => {
                 alert(x.error);
             });
             return
