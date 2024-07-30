@@ -1,4 +1,4 @@
-var url = "https://localhost:7011/";
+var url = "https://apivisitvr.azurewebsites.net/";
 var endpoint = "Cidade";
 
 async function GetCidades(){

@@ -1,4 +1,4 @@
-var url = "https://localhost:7011/";
+var url = "https://apivisitvr.azurewebsites.net/";
 var endpoint = "Lugar";
 
 async function GetLugares(){
