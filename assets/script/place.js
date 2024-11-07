@@ -1,9 +1,14 @@
-var url = "https://apivisitvr.azurewebsites.net/";
+var url = "https://localhost:7011/";
 var endpoint = "Lugar";
 
 async function GetLugares(){
     try{
         let response = await fetch(url+endpoint);
+
+        if(response.status == 401){
+            alert("não autorizado");
+            return;
+        }
 
         if(!response.ok){
             document.getElementById("loading").style.display = "none";
@@ -12,7 +17,7 @@ async function GetLugares(){
                 const exceptionLine = match ? match[0] : null;
                 alert(exceptionLine.split(": ")[1]);
             });
-            return
+            return;
         }
     
         if (response.status === 404) {

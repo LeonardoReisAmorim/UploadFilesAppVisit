@@ -1,4 +1,4 @@
-var url = "https://apivisitvr.azurewebsites.net/";
+var url = "https://localhost:7011/";
 var endpoint = "Arquivo";
 
 async function GetDadosArquivos(){
