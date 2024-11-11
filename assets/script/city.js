@@ -1,5 +1,7 @@
 var url = "https://localhost:7011/";
 var endpoint = "City";
+var token = localStorage.getItem("token");
+var usuarioId = localStorage.getItem("usuarioId");
 
 async function GetCidades(){
     try{
@@ -38,7 +40,7 @@ GetCidades().then(estados => {
         var row = document.createElement("tr");
         row.innerHTML = 
         `<tr>
-           <td>${element.nome}</td>
+           <td>${element.name}</td>
            <td>
            <div style="display: flex;flex-wrap: nowrap; justify-content: center">
                 <div style="margin-right:20px"><button type="button" class="btn btn-primary" onclick="GetCidadeById(${element.id})">Editar Cidade</button></div>
@@ -75,8 +77,8 @@ async function GetCidadeById(id){
     
         await response.json().then(cidade => {
             document.getElementById("idCidade").value = cidade[0].id;
-            document.getElementById("nameCidade").value = cidade[0].nome;
-            document.getElementById("estado").value = cidade[0].estadoId;
+            document.getElementById("nameCidade").value = cidade[0].name;
+            document.getElementById("estado").value = cidade[0].stateId;
             document.getElementById("createCidade").innerHTML = "EDITAR CIDADE"
         });
     }catch(erro){
@@ -127,7 +129,7 @@ async function apagarCidade(id){
 }
 
 async function GetEstados(){
-    let response = await fetch(url+"Estado", {
+    let response = await fetch(url+"State", {
         headers: {Authorization: `Bearer ${token}`}
     });
 
@@ -153,7 +155,7 @@ GetEstados().then(estados => {
     for(var estado of estados){
         let option = document.createElement("option");
         option.value = estado.id;
-        option.text = estado.nome;
+        option.text = estado.name;
         document.getElementById("estado").appendChild(option)
     }
 });
@@ -165,6 +167,11 @@ document.getElementById("createCidade").addEventListener('click', ()=>{
     let urlplace;
     let method;
 
+    if(!nomeCidade || !estadoId){
+        alert("os campos Estado e Nome são obrigatórias");
+        return
+    }
+
     if(!idCidade){
         urlplace = url+endpoint;
         method = "POST";
@@ -174,15 +181,10 @@ document.getElementById("createCidade").addEventListener('click', ()=>{
     }
 
     let cidade = {
-        Nome: nomeCidade,
-        EstadoId: estadoId
+        Name: nomeCidade,
+        StateId: estadoId
     }
-
-    if(!cidade.Nome || !cidade.EstadoId){
-        alert("os campos Estado e Nome são obrigatórias");
-        return
-    }
-
+    
     CreateOrEditCidade(cidade, urlplace, method);
 });
 

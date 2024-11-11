@@ -1,5 +1,7 @@
 var url = "https://localhost:7011/";
 var endpoint = "FileVR";
+var token = localStorage.getItem("token");
+var usuarioId = localStorage.getItem("usuarioId");
 
 async function GetDadosArquivos(){
     try{
@@ -38,8 +40,8 @@ GetDadosArquivos().then(files => {
         var row = document.createElement("tr");
         row.innerHTML = 
         `<tr>
-           <td>${element.nomeArquivo}</td>
-           <td>${element.dataCriacao}</td>
+           <td>${element.fileName}</td>
+           <td>${element.createdAt}</td>
            <td>
            <div style="display: flex;flex-wrap: nowrap;">
                 <div style="margin-right:20px"><button type="button" class="btn btn-primary" onclick="editarArquivo(${element.id})">Substituir Arquivo</button></div>
@@ -75,7 +77,7 @@ async function editarArquivo(id){
         }
 
         await response.json().then(file => {
-            document.getElementById("nomeArquivo").value = file[0].nomeArquivo;
+            document.getElementById("nomeArquivo").value = file[0].fileName;
             document.getElementById("labelEditFile").style.display = "block";
             document.getElementById("idFile").value = file[0].id;
         });
@@ -146,6 +148,11 @@ async function ChamarAjaxComArquivos() {
     let urlFile;
     let method;
 
+    if(!nomearquivo){
+        alert("necessario o nome do arquivo");
+        return
+    }
+
     if(!idFile){
         urlFile = url+endpoint;
         method = "POST";
@@ -153,17 +160,12 @@ async function ChamarAjaxComArquivos() {
         urlFile = url+`${endpoint}/${idFile}`
         method = "PUT"
     }
-
-    if(!nomearquivo){
-        alert("necessario o nome do arquivo");
-        return
-    }
-
+    
     formData.append("selecao-arquivo", file);
 
     formData.append("dadosArquivo", JSON.stringify({
-        NomeArquivo: nomearquivo,
-        DataCriacao: new Date().toLocaleString('en-US').replace(',','')
+        FileName: nomearquivo,
+        CreatedAt: new Date().toLocaleString('en-US').replace(',','')
     }));
 
     document.getElementById("loading").style.display = "block";

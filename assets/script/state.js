@@ -1,5 +1,7 @@
 var url = "https://localhost:7011/";
-var endpoint = "State"
+var endpoint = "State";
+var token = localStorage.getItem("token");
+var usuarioId = localStorage.getItem("usuarioId");
 
 async function GetEstados(){
     try{
@@ -38,7 +40,7 @@ GetEstados().then(estado => {
         var row = document.createElement("tr");
         row.innerHTML = 
         `<tr>
-           <td>${element.nome}</td>
+           <td>${element.name}</td>
            <td>
            <div style="display: flex;flex-wrap: nowrap; justify-content: center">
                 <div style="margin-right:20px"><button type="button" class="btn btn-primary" onclick="GetEstadoById(${element.id})">Editar Estado</button></div>
@@ -75,8 +77,8 @@ async function GetEstadoById(id){
     
         await response.json().then(estado => {
             document.getElementById("idEstado").value = estado[0].id;
-            document.getElementById("nameEstado").value = estado[0].nome;
-            document.getElementById("pais").value = estado[0].paisId;
+            document.getElementById("nameEstado").value = estado[0].name;
+            document.getElementById("pais").value = estado[0].countryId;
             document.getElementById("createEstado").innerHTML = "EDITAR ESTADO"
         });
     }catch(erro){
@@ -127,7 +129,7 @@ async function apagarEstado(id){
 }
 
 async function GetPaises(){
-    let response = await fetch(url+"Pais",{
+    let response = await fetch(url+"Country",{
         headers: {Authorization: `Bearer ${token}`}
     });
 
@@ -153,7 +155,7 @@ GetPaises().then(paises => {
     for(var pais of paises){
         let option = document.createElement("option");
         option.value = pais.id;
-        option.text = pais.nome;
+        option.text = pais.name;
         document.getElementById("pais").appendChild(option)
     }
 });
@@ -165,6 +167,11 @@ document.getElementById("createEstado").addEventListener('click', ()=>{
     let urlplace;
     let method;
 
+    if(!nomeEstado || !paisId){
+        alert("os campos Pais e Nome são obrigatórias");
+        return
+    }
+
     if(!idEstado){
         urlplace = url+endpoint;
         method = "POST";
@@ -174,13 +181,8 @@ document.getElementById("createEstado").addEventListener('click', ()=>{
     }
 
     let estado = {
-        Nome: nomeEstado,
-        PaisId: paisId
-    }
-
-    if(!estado.Nome || !estado.PaisId){
-        alert("os campos Pais e Nome são obrigatórias");
-        return
+        Name: nomeEstado,
+        CountryId: paisId
     }
 
     CreateOrEditEstado(estado, urlplace, method);

@@ -1,5 +1,7 @@
 var url = "https://localhost:7011/";
-var endpoint = "Country"
+var endpoint = "Country";
+var token = localStorage.getItem("token");
+var usuarioId = localStorage.getItem("usuarioId");
 
 async function GetPaises(){
     try{
@@ -38,7 +40,7 @@ GetPaises().then(paises => {
         var row = document.createElement("tr");
         row.innerHTML = 
         `<tr>
-           <td>${element.nome}</td>
+           <td>${element.name}</td>
            <td>
            <div style="display: flex;flex-wrap: nowrap; justify-content: center">
                 <div style="margin-right:20px"><button type="button" class="btn btn-primary" onclick="GetPlaceById(${element.id})">Editar Pais</button></div>
@@ -75,7 +77,7 @@ async function GetPlaceById(id){
     
         await response.json().then(pais => {
             document.getElementById("idPais").value = pais[0].id;
-            document.getElementById("namePais").value = pais[0].nome;
+            document.getElementById("namePais").value = pais[0].name;
             document.getElementById("createPais").innerHTML = "EDITAR PAÍS"
         });
     }catch(erro){
@@ -131,6 +133,11 @@ document.getElementById("createPais").addEventListener('click', ()=>{
     let urlplace;
     let method;
 
+    if(!nomePais){
+        alert("O campo Nome é obrigatório");
+        return
+    }
+
     if(!idPais){
         urlplace = url+endpoint;
         method = "POST";
@@ -140,12 +147,7 @@ document.getElementById("createPais").addEventListener('click', ()=>{
     }
 
     let pais = {
-        Nome: nomePais
-    }
-
-    if(!pais.Nome){
-        alert("O campo Nome é obrigatório");
-        return
+        Name: nomePais
     }
 
     CreateOrEditPais(pais, urlplace, method);
@@ -162,7 +164,7 @@ async function CreateOrEditPais(paisParametro, urlplace, method){
             body: JSON.stringify(paisParametro),
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
-                "Authorization": "Bearer " + token
+                Authorization: `Bearer ${token}`
             }
         })
 

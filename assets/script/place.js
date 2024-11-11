@@ -45,11 +45,11 @@ GetLugares().then(places => {
         var row = document.createElement("tr");
         row.innerHTML = 
         `<tr>
-           <td>${element.nome}</td>
-           <td>${element.descricao}</td>
-           <td>${element.cidade}</td>
-           <td>${element.nomeArquivo}</td>
-           <td>${element.instrucoesUtilizacaoVR}</td>
+           <td>${element.name}</td>
+           <td>${element.description}</td>
+           <td>${element.city}</td>
+           <td>${element.fileName}</td>
+           <td>${element.usageInstructionsVR}</td>
            <td>
            <div style="display: flex;flex-wrap: nowrap; justify-content: center">
                 <div style="margin-right:20px"><button type="button" class="btn btn-primary" onclick="GetLugarById(${element.id})">Editar Lugar</button></div>
@@ -86,12 +86,12 @@ async function GetLugarById(id){
     
         await response.json().then(place => {
             document.getElementById("idplace").value = place[0].id;
-            document.getElementById("namePlace").value = place[0].nome;
-            document.getElementById("descriptionPlace").value = place[0].descricao;
-            document.getElementById("cities").value = place[0].cidadeId;
-            document.getElementById("files").value = place[0].arquivoId;
-            document.getElementById("instructionVRPlace").value = place[0].instrucoesUtilizacaoVR;
-            document.getElementById("display").src = "data:image/png;base64,"+place[0].imagem;
+            document.getElementById("namePlace").value = place[0].name;
+            document.getElementById("descriptionPlace").value = place[0].description;
+            document.getElementById("cities").value = place[0].cityId;
+            document.getElementById("files").value = place[0].fileVRId;
+            document.getElementById("instructionVRPlace").value = place[0].usageInstructionsVR;
+            document.getElementById("display").src = "data:image/png;base64,"+place[0].image;
             document.getElementById("display").style.width = "30%";
             document.getElementById("display").style.height = "30%";
             document.getElementById("createPlace").innerHTML = "EDITAR LUGAR"
@@ -144,7 +144,7 @@ async function apagarLugar(id){
 }
 
 async function GetCidades(){
-    let response = await fetch(url+"Cidade", {
+    let response = await fetch(url+"City", {
         headers: {Authorization: `Bearer ${token}`}
     });
 
@@ -170,13 +170,13 @@ GetCidades().then(cidades => {
     for(var cidade of cidades){
         let option = document.createElement("option");
         option.value = cidade.id;
-        option.text = cidade.nome;
+        option.text = cidade.name;
         document.getElementById("cities").appendChild(option)
     }
 });
 
 async function GetDadosArquivos(){
-    let response = await fetch(url+"Arquivo/dadosArquivos", {
+    let response = await fetch(url+"FileVR/dadosArquivos", {
         headers: {Authorization: `Bearer ${token}`}
     });
     
@@ -202,7 +202,7 @@ GetDadosArquivos().then(files => {
     for(var file of files){
         let option = document.createElement("option");
         option.value = file.id;
-        option.text = file.nomeArquivo;
+        option.text = file.fileName;
         document.getElementById("files").appendChild(option)
     }
 });
@@ -218,6 +218,11 @@ document.getElementById("createPlace").addEventListener('click', ()=>{
     let urlplace;
     let method;
 
+    if(!cidadeId || !nomeLugar || !descricaoLugar || !arquivoId || !instrucoesUtilizacaoVR){
+        alert("os campos Cidade, Nome, Descricao, Arquivo e Instrucoes são obrigatórias");
+        return
+    }
+
     if(!idplace){
         urlplace = url+endpoint;
         method = "POST";
@@ -227,17 +232,12 @@ document.getElementById("createPlace").addEventListener('click', ()=>{
     }
 
     let lugar = {
-        Nome: nomeLugar,
-        Descricao: descricaoLugar,
-        ArquivoId: arquivoId,
-        CidadeId: cidadeId,
-        Imagem: imagemBase64,
-        InstrucoesUtilizacaoVR: instrucoesUtilizacaoVR
-    }
-
-    if(!lugar.CidadeId || !lugar.Nome || !lugar.Descricao || !lugar.ArquivoId || !lugar.InstrucoesUtilizacaoVR){
-        alert("os campos Cidade, Nome, Descricao, Arquivo e Instrucoes são obrigatórias");
-        return
+        Name: nomeLugar,
+        Description: descricaoLugar,
+        FileVRId: arquivoId,
+        CityId: cidadeId,
+        Image: imagemBase64,
+        UsageInstructionsVR: instrucoesUtilizacaoVR
     }
 
     CreateOrEditPlace(lugar, urlplace, method);
