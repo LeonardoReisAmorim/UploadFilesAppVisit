@@ -1,9 +1,11 @@
 var url = "https://localhost:7011/";
-var endpoint = "Arquivo";
+var endpoint = "FileVR";
 
 async function GetDadosArquivos(){
     try{
-        let response = await fetch(url+`${endpoint}/dadosArquivos`);
+        let response = await fetch(url+`${endpoint}/dadosArquivos`, {
+            headers: {Authorization: `Bearer ${token}`}
+        });
 
         if(!response.ok){
             document.getElementById("loading").style.display = "none";
@@ -53,7 +55,9 @@ async function editarArquivo(id){
     criarModal();
 
     try{
-        let response = await fetch(url+`${endpoint}/dadosArquivos/${id}`)
+        let response = await fetch(url+`${endpoint}/dadosArquivos/${id}`, {
+            headers: {Authorization: `Bearer ${token}`}
+        })
 
         if(!response.ok){
             document.getElementById("loading").style.display = "none";
@@ -91,7 +95,8 @@ async function apagarArquivo(id){
 
         try{
             let response = await fetch(url+`${endpoint}/${id}`,{
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {Authorization: `Bearer ${token}`}
             });
 
             if(!response.ok){
@@ -167,7 +172,8 @@ async function ChamarAjaxComArquivos() {
     try{
         let response = await fetch(urlFile, {
             method: method,
-            body: formData
+            body: formData,
+            headers: {Authorization: `Bearer ${token}`}
         })
 
         if(!response.ok && response.status === 400){

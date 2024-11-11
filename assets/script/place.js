@@ -1,9 +1,13 @@
 var url = "https://localhost:7011/";
-var endpoint = "Lugar";
+var endpoint = "Place";
+var token = localStorage.getItem("token");
+var usuarioId = localStorage.getItem("usuarioId");
 
 async function GetLugares(){
     try{
-        let response = await fetch(url+endpoint);
+        let response = await fetch(url+endpoint, {
+            headers: {Authorization: `Bearer ${token}`}
+        });
 
         if(response.status == 401){
             alert("não autorizado");
@@ -61,7 +65,9 @@ async function GetLugarById(id){
     criarModal();
 
     try{
-        let response = await fetch(url+`${endpoint}/${id}`);
+        let response = await fetch(url+`${endpoint}/${id}`, {
+            headers: {Authorization: `Bearer ${token}`}
+        });
     
         if(!response.ok){
             document.getElementById("loading").style.display = "none";
@@ -107,7 +113,8 @@ async function apagarLugar(id){
     
         try{
             let response = await fetch(url+`${endpoint}/${id}`,{
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {Authorization: `Bearer ${token}`}
             })
         
             if(!response.ok){
@@ -137,7 +144,9 @@ async function apagarLugar(id){
 }
 
 async function GetCidades(){
-    let response = await fetch(url+"Cidade");
+    let response = await fetch(url+"Cidade", {
+        headers: {Authorization: `Bearer ${token}`}
+    });
 
     if(!response.ok){
         document.getElementById("loading").style.display = "none";
@@ -167,7 +176,9 @@ GetCidades().then(cidades => {
 });
 
 async function GetDadosArquivos(){
-    let response = await fetch(url+"Arquivo/dadosArquivos");
+    let response = await fetch(url+"Arquivo/dadosArquivos", {
+        headers: {Authorization: `Bearer ${token}`}
+    });
     
     if(!response.ok){
         document.getElementById("loading").style.display = "none";
@@ -242,7 +253,8 @@ async function CreateOrEditPlace(lugarParametro, urlplace, method){
             method: method,
             body: JSON.stringify(lugarParametro),
             headers: {
-                "Content-type": "application/json; charset=UTF-8"
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": "Bearer " + token
             }
         })
 

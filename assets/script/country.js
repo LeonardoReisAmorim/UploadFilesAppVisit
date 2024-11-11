@@ -1,9 +1,11 @@
 var url = "https://localhost:7011/";
-var endpoint = "Pais"
+var endpoint = "Country"
 
 async function GetPaises(){
     try{
-        let response = await fetch(url+endpoint);
+        let response = await fetch(url+endpoint, {
+            headers: {Authorization: `Bearer ${token}`}
+        });
 
         if(!response.ok){
             document.getElementById("loading").style.display = "none";
@@ -52,7 +54,9 @@ async function GetPlaceById(id){
     criarModal();
 
     try{
-        let response = await fetch(url+`${endpoint}/${id}`);
+        let response = await fetch(url+`${endpoint}/${id}`, {
+            headers: {Authorization: `Bearer ${token}`}
+        });
     
         if(!response.ok){
             document.getElementById("loading").style.display = "none";
@@ -91,7 +95,8 @@ async function apagarPais(id){
     
         try{
             let response = await fetch(url+`${endpoint}/${id}`,{
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {Authorization: `Bearer ${token}`}
             })
         
             if(!response.ok){
@@ -156,7 +161,8 @@ async function CreateOrEditPais(paisParametro, urlplace, method){
             method: method,
             body: JSON.stringify(paisParametro),
             headers: {
-                "Content-type": "application/json; charset=UTF-8"
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": "Bearer " + token
             }
         })
 

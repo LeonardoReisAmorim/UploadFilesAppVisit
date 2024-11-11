@@ -1,9 +1,11 @@
 var url = "https://localhost:7011/";
-var endpoint = "Estado"
+var endpoint = "State"
 
 async function GetEstados(){
     try{
-        let response = await fetch(url+endpoint);
+        let response = await fetch(url+endpoint, {
+            headers: {Authorization: `Bearer ${token}`}
+        });
 
         if(!response.ok){
             document.getElementById("loading").style.display = "none";
@@ -52,7 +54,9 @@ async function GetEstadoById(id){
     criarModal();
 
     try{
-        let response = await fetch(url+`${endpoint}/${id}`);
+        let response = await fetch(url+`${endpoint}/${id}`,{
+            headers: {Authorization: `Bearer ${token}`}
+        });
     
         if(!response.ok){
             document.getElementById("loading").style.display = "none";
@@ -92,7 +96,8 @@ async function apagarEstado(id){
     
         try{
             let response = await fetch(url+`${endpoint}/${id}`,{
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {Authorization: `Bearer ${token}`}
             })
         
             if(!response.ok){
@@ -122,7 +127,9 @@ async function apagarEstado(id){
 }
 
 async function GetPaises(){
-    let response = await fetch(url+"Pais");
+    let response = await fetch(url+"Pais",{
+        headers: {Authorization: `Bearer ${token}`}
+    });
 
     if(!response.ok){
         document.getElementById("loading").style.display = "none";
@@ -189,7 +196,8 @@ async function CreateOrEditEstado(EstadoParametro, urlplace, method){
             method: method,
             body: JSON.stringify(EstadoParametro),
             headers: {
-                "Content-type": "application/json; charset=UTF-8"
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": "Bearer " + token
             }
         })
 
