@@ -42,6 +42,7 @@ GetDadosArquivos().then(files => {
         `<tr>
            <td>${element.fileName}</td>
            <td>${element.createdAt}</td>
+           <td>${element.updatedAt}</td>
            <td>
            <div style="display: flex;flex-wrap: nowrap;">
                 <div style="margin-right:20px"><button type="button" class="btn btn-primary" onclick="editarArquivo(${element.id})">Substituir Arquivo</button></div>
@@ -165,7 +166,8 @@ async function ChamarAjaxComArquivos() {
 
     formData.append("dadosArquivo", JSON.stringify({
         FileName: nomearquivo,
-        CreatedAt: new Date().toLocaleString('en-US').replace(',','')
+        CreatedAt: new Date().toLocaleString('en-US').replace(',',''),
+        UpdatedAt: new Date().toLocaleString('en-US').replace(',','')
     }));
 
     document.getElementById("loading").style.display = "block";
