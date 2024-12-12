@@ -65,6 +65,14 @@
       </select>
       <br>
 
+      <label for="filePlace">Escolha o o tipo de lugar do ambiente virtual</label>
+      <select class="form-control" name="typePlaces" id="typePlaces">
+          <option value="">Escolha uma opção</option>
+      </select>
+      <br>
+      <button type="button" class="btn btn-primary" id="showModalTypePlace">Criar Tipo de lugar</button>
+      <br><br>
+
       <label for="instructionVRPlace">Digite todas as instruções de como utilizar o lugar virtualmente</label>
       <textarea class="form-control" id="instructionVRPlace" rows="4" cols="50"></textarea>
       <br>
@@ -78,6 +86,26 @@
       <br><br>
 
       <button type="button" class="btn btn-success" id="createPlace">CRIAR LUGAR</button>
+    </div>
+  </div>
+
+  <div id="myModalTypePlace" class="modal1">
+    <div class="modal-content1">
+      <span class="close1">&times;</span>
+
+      <label for="nameTypePlace">Digite o tipo de lugar</label>
+      <input type="text" class="form-control" id="nameTypePlace">
+      <br>
+
+      <div class="form-group">
+        <label for="imageTypePlace">Selecione a imagem do tipo de lugar</label>
+        <input type="file" class="form-control-file" id="imageTypePlace" name="imageTypePlace" accept="image/png, image/jpeg"/>
+      </div>
+      
+      <img id="displayTypePlace" src="">
+      <br><br>
+
+      <button type="button" class="btn btn-success" id="createTypePlace">CRIAR TIPO DE LUGAR</button>
     </div>
   </div>
 
