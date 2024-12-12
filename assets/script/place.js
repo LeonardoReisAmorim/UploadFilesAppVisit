@@ -338,7 +338,7 @@ document.getElementById("createTypePlace").addEventListener('click', async ()=>{
 
     let typePlaceDTO = {
         Type: nameTypePlace,
-        Image: imagemBase64TypePlace
+        ImageRequest: imagemBase64TypePlace
     }
 
     document.getElementById("loading").style.display = "block";
