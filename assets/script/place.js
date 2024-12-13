@@ -90,6 +90,7 @@ async function GetLugarById(id){
             document.getElementById("descriptionPlace").value = place[0].description;
             document.getElementById("cities").value = place[0].cityId;
             document.getElementById("files").value = place[0].fileVRId;
+            document.getElementById("typePlaces").value = place[0].typePlaceId;
             document.getElementById("instructionVRPlace").value = place[0].usageInstructionsVR;
             document.getElementById("display").src = "data:image/png;base64,"+place[0].image;
             document.getElementById("display").style.width = "30%";
